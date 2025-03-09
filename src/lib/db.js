@@ -18,6 +18,15 @@ async function createUser(user) {
   return userUUID
 }
 
+async function getUser(userId) {
+  const user = await sql`
+  SELECT id, name, email FROM users
+  WHERE id = ${userId}
+  `
+  return user[0]
+}
+
 module.exports = {
-  createUser
+  createUser,
+  getUser
 }

@@ -8,6 +8,16 @@ function generateToken(userId) {
   return token
 }
 
+function verifyToken(token) {
+  try {
+    const payload = jwt.verify(token, secretKey)
+    return payload
+  } catch {
+    return false
+  }
+}
+
 module.exports = {
-  generateToken
+  generateToken,
+  verifyToken
 }
