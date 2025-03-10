@@ -26,7 +26,16 @@ async function getUser(userId) {
   return user[0]
 }
 
+async function getUserPassword(email) {
+  const user = await sql`
+  SELECT id, password FROM users
+  WHERE email = ${email}
+  `
+  return user[0]
+}
+
 module.exports = {
   createUser,
-  getUser
+  getUser,
+  getUserPassword
 }
