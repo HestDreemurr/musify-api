@@ -45,6 +45,14 @@ app.get("/auth/me", authenticateToken, async (req, res) => {
   return res.json({ ok: true, user })
 })
 
+app.delete("/auth/delete/:id", async (req, res) => {
+  const userId = req.params.id
+  
+  await db.deleteUser(userId)
+  
+  return res.json({ ok: true })
+})
+
 app.listen(port, () => {
   console.log("Aplicação rodando em http://localhost:3333")
 })

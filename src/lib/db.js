@@ -34,8 +34,17 @@ async function getUserPassword(email) {
   return user[0]
 }
 
+async function deleteUser(userId) {
+  const res = await sql`
+  DELETE FROM users
+  WHERE id = ${userId}
+  `
+  return res
+}
+
 module.exports = {
   createUser,
   getUser,
-  getUserPassword
+  getUserPassword,
+  deleteUser
 }
