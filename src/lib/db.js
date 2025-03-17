@@ -41,9 +41,32 @@ async function deleteUser(userId) {
   `, [userId])
 }
 
+async function updateUser(userId, userChanges) {
+  const changesList = Object.entries(userChanges)
+  
+  let setQuery = "SET"
+  let index = 0
+  let valuesList = []
+  
+  for (const [key, value] of changesList) {
+    index++
+    setQuery += ` ${key} = $${index}${index === changesList.length ? "" : ","}`
+    valuesList.push(value)
+  }
+  
+  valuesList.push(userId)
+  
+  await sql.query(`
+  UPDATE users
+  ${setQuery}
+  WHERE id = $${valuesList.length}
+  `, valuesList)
+}
+
 module.exports = {
   createUser,
   getUser,
   getUserPassword,
-  deleteUser
+  deleteUser,
+  updateUser
 }

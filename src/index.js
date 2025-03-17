@@ -57,7 +57,7 @@ app.delete("/auth/delete/:id", async (req, res) => {
 app.put("/auth/update", authenticateToken, async (req, res) => {
   await db.updateUser(req.userId, req.body)
   
-  return res.json({ ok: true })
+  return res.status(204)
 })
 
 app.listen(port, () => {
