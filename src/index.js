@@ -13,6 +13,7 @@ app.use(express.json())
 
 app.post("/auth/register", async (req, res) => {
   const user = req.body
+  console.log(user)
   
   const userId = await db.createUser(user)
   
@@ -49,6 +50,12 @@ app.delete("/auth/delete/:id", async (req, res) => {
   const userId = req.params.id
   
   await db.deleteUser(userId)
+  
+  return res.status(204)
+})
+
+app.put("/auth/update", authenticateToken, async (req, res) => {
+  await db.updateUser(req.userId, req.body)
   
   return res.json({ ok: true })
 })
