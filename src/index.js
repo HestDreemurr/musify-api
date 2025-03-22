@@ -1,4 +1,6 @@
+require("dotenv").config()
 const express = require("express")
+const cors = require("cors")
 const path = require("node:path")
 
 const db = require("./lib/db.js")
@@ -8,8 +10,12 @@ const { validatePassword } = require("./lib/bcrypt.js")
 
 const app = express()
 const port = process.env.PORT ?? 3333
+const allowedURL = process.env.ALLOWED_URL
 
 app.use(express.json())
+app.use(cors({
+  origin: allowedURL
+}))
 
 app.post("/auth/register", async (req, res) => {
   const user = req.body
@@ -55,6 +61,12 @@ app.put("/auth/update", authenticateToken, async (req, res) => {
   await db.updateUser(req.userId, req.body)
   
   return res.status(204)
+})
+
+app.get("/sla", (req, res) => {
+  console.log(req.headers)
+  
+  return res.send("Sla")
 })
 
 app.listen(port, () => {
